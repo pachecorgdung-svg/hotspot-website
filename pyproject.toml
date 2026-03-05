@@ -4,14 +4,14 @@ version = "1.0.0"
 requires-python = ">=3.9"
 dependencies = [
     "flask",
-    "flask-sqlalchemy", 
+    "flask-sqlalchemy",
     "requests",
     "beautifulsoup4",
     "lxml",
     "apscheduler",
-    "python-dotenv",
+    "python-dotenv"
 ]
 
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=61"]
 build-backend = "setuptools.build_meta"
