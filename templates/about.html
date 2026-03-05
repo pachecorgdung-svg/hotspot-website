@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block title %}关于 - 跨境电商热点追踪{% endblock %}
+
+{% block content %}
+<div class="about-page">
+    <div class="about-header">
+        <h1><i class="fas fa-info-circle"></i> 关于跨境电商热点追踪系统</h1>
+        <p class="subtitle">自动化的跨境电商热点监测与展示平台</p>
+    </div>
+
+    <div class="about-section">
+        <h2><i class="fas fa-bullseye"></i> 系统简介</h2>
+        <p>
+            跨境电商热点追踪系统是一个自动化平台，专门监测和展示跨境电商领域的热点事件。
+            系统每天自动从多个数据源收集信息，通过智能算法筛选出最重要的10个热点，并以美观的卡片式布局展示。
+        </p>
+    </div>
+
+    <div class="about-section">
+        <h2><i class="fas fa-cogs"></i> 主要功能</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-robot"></i>
+                <h3>自动抓取</h3>
+                <p>每天9:00自动从多个数据源抓取跨境电商热点</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-chart-line"></i>
+                <h3>智能排序</h3>
+                <p>基于热度算法自动筛选Top10热点事件</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-desktop"></i>
+                <h3>美观展示</h3>
+                <p>响应式卡片设计，支持移动端和桌面端</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-code"></i>
+                <h3>API接口</h3>
+                <p>提供RESTful API接口，方便开发者使用</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2><i class="fas fa-database"></i> 数据来源</h2>
+        <div class="sources-grid">
+            <div class="source-card">
+                <i class="fas fa-shopping-cart"></i>
+                <h3>跨境电商平台</h3>
+                <ul>
+                    <li>雨果网</li>
+                    <li>AMZ123</li>
+                    <li>跨境知道</li>
+                </ul>
+            </div>
+            <div class="source-card">
+                <i class="fas fa-newspaper"></i>
+                <h3>新闻媒体</h3>
+                <ul>
+                    <li>新浪新闻</li>
+                    <li>搜狐新闻</li>
+                    <li>腾讯新闻</li>
+                </ul>
+            </div>
+            <div class="source-card">
+                <i class="fas fa-comments"></i>
+                <h3>社交媒体</h3>
+                <ul>
+                    <li>微博</li>
+                    <li>知乎</li>
+                    <li>抖音</li>
+                    <li>小红书</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2><i class="fas fa-code-branch"></i> 技术架构</h2>
+        <div class="tech-stack">
+            <div class="tech-item">
+                <div class="tech-icon backend">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div>
+                    <h3>后端技术</h3>
+                    <p>Python Flask • SQLAlchemy • SQLite • APScheduler</p>
+                </div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon frontend">
+                    <i class="fas fa-desktop"></i>
+                </div>
+                <div>
+                    <h3>前端技术</h3>
+                    <p>HTML5 • CSS3 • JavaScript • Jinja2模板</p>
+                </div>
+            </div>
+            <div class="tech-item">
+                <div class="tech-icon crawler">
+                    <i class="fas fa-spider"></i>
+                </div>
+                <div>
+                    <h3>爬虫技术</h3>
+                    <p>Requests • BeautifulSoup4 • 多数据源支持</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="about-section">
+        <h2><i class="fas fa-question-circle"></i> 常见问题</h2>
+        <div class="faq-list">
+            <div class="faq-item">
+                <h3>数据多久更新一次？</h3>
+                <p>系统每天上午9:00自动更新一次，您也可以手动触发更新。</p>
+            </div>
+            <div class="faq-item">
+                <h3>热度分数如何计算？</h3>
+                <p>热度分数基于标题质量、来源权威性、发布时间、互动数据等多项指标综合计算。</p>
+            </div>
+            <div class="faq-item">
+                <h3>如何获取数据API？</h3>
+                <p>系统提供RESTful API接口，详细文档请访问 <a href="/api/hotspots/today" target="_blank">API页面</a>。</p>
+            </div>
+            <div class="faq-item">
+                <h3>可以添加新的数据源吗？</h3>
+                <p>可以，系统采用模块化设计，可以轻松添加新的爬虫和数据源。</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="contact-section">
+        <h2><i class="fas fa-envelope"></i> 联系我们</h2>
+        <p>
+            如果您有任何问题或建议，欢迎通过以下方式联系我们：
+        </p>
+        <div class="contact-info">
+            <p><i class="fas fa-code"></i> 开源项目：GitHub仓库地址</p>
+            <p><i class="fas fa-bug"></i> 问题反馈：GitHub Issues</p>
+            <p><i class="fas fa-book"></i> 文档：项目README文件</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

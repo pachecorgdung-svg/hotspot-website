@@ -1,0 +1,241 @@
+{% extends "base.html" %}
+
+{% block title %}今日跨境电商热点 - 跨境电商热点追踪{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2><i class="fas fa-bolt"></i> 今日跨境电商十大热点</h2>
+        <p class="subtitle">每日9:00自动更新 • 全网跨境电商热点追踪</p>
+    </div>
+    <div class="stats">
+        <div class="stat-item">
+            <i class="fas fa-calendar-day"></i>
+            <span>今日更新：{{ last_update }}</span>
+        </div>
+        <div class="stat-item">
+            <i class="fas fa-chart-line"></i>
+            <span>热点总数：{{ stats.total_count if stats else 0 }}</span>
+        </div>
+        <button class="btn-refresh" onclick="refreshData()">
+            <i class="fas fa-sync-alt"></i> 刷新
+        </button>
+    </div>
+</div>
+
+{% if not hotspots %}
+<div class="empty-state">
+    <i class="fas fa-inbox fa-3x"></i>
+    <h3>暂无热点数据</h3>
+    <p>系统将在每天9:00自动更新热点数据，您也可以手动刷新。</p>
+    <button class="btn-primary" onclick="refreshData()">
+        <i class="fas fa-play"></i> 立即更新
+    </button>
+</div>
+{% else %}
+<div class="hotspots-grid">
+    {% for hotspot in hotspots %}
+    <div class="hotspot-card">
+        <div class="card-rank">
+            <span class="rank-badge">{{ loop.index }}</span>
+            <div class="rank-trend">
+                {% if loop.index <= 3 %}
+                <i class="fas fa-fire" style="color: #ff6b6b;"></i>
+                {% elif loop.index <= 6 %}
+                <i class="fas fa-chart-line" style="color: #4a6cf7;"></i>
+                {% else %}
+                <i class="fas fa-eye" style="color: #51cf66;"></i>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="card-content">
+            <div class="card-header">
+                <h3 class="card-title">{{ hotspot.title }}</h3>
+                <div class="heat-score">
+                    <i class="fas fa-thermometer-half"></i>
+                    <span>{{ "%.1f"|format(hotspot.heat_score|float) }} 热度</span>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <p class="card-summary">{{ hotspot.summary or '暂无摘要' }}</p>
+
+                <div class="card-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-globe"></i>
+                        <span>{{ hotspot.source_site }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ hotspot.publish_date[:10] if hotspot.publish_date else '未知' }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-eye"></i>
+                        <span>{{ hotspot.view_count }} 浏览</span>
+                    </div>
+                </div>
+
+                {% if hotspot.tags and hotspot.tags|length > 0 %}
+                <div class="card-tags">
+                    {% for tag in hotspot.tags %}
+                    <span class="tag">{{ tag }}</span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+
+            <div class="card-footer">
+                <a href="{{ hotspot.source_url }}" target="_blank" class="btn-read-more">
+                    <i class="fas fa-external-link-alt"></i> 查看原文
+                </a>
+                <button class="btn-share" onclick="shareHotspot({{ hotspot.id }})">
+                    <i class="fas fa-share-alt"></i> 分享
+                </button>
+            </div>
+        </div>
+
+        {% if hotspot.image_url %}
+        <div class="card-image">
+            <img src="{{ hotspot.image_url }}" alt="{{ hotspot.title }}" onerror="this.style.display='none'">
+        </div>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<div class="data-info">
+    <div class="info-box">
+        <h3><i class="fas fa-info-circle"></i> 数据说明</h3>
+        <ul>
+            <li>热点数据每日9:00自动更新，涵盖跨境电商平台、新闻媒体和社交媒体</li>
+            <li>热度分数根据标题、来源、时间、互动量等多项指标综合计算</li>
+            <li>数据来源：雨果网、新浪新闻、微博、知乎等主流平台</li>
+            <li>仅展示今日热度最高的10个跨境电商相关热点</li>
+        </ul>
+    </div>
+
+    <div class="info-box">
+        <h3><i class="fas fa-chart-bar"></i> 今日统计</h3>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fas fa-newspaper"></i>
+                <div>
+                    <h4>{{ stats.total_count if stats else 0 }}</h4>
+                    <p>热点总数</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-calendar-check"></i>
+                <div>
+                    <h4>{{ stats.today_count if stats else 0 }}</h4>
+                    <p>今日热点</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-crown"></i>
+                <div>
+                    <h4>10</h4>
+                    <p>Top10热点</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <i class="fas fa-database"></i>
+                <div>
+                    <h4>{{ (stats.source_stats|length) if stats and stats.source_stats else 3 }}</h4>
+                    <p>数据来源</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="api-info">
+    <h3><i class="fas fa-code"></i> API接口</h3>
+    <p>开发者可以使用以下API接口获取数据：</p>
+    <div class="api-endpoints">
+        <code>GET /api/hotspots/today</code> - 获取今日Top10热点
+        <code>GET /api/hotspots/recent?limit=20</code> - 获取最近热点
+        <code>GET /api/stats</code> - 获取统计数据
+        <code>POST /api/hotspots/update</code> - 手动触发更新（需要认证）
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function refreshData() {
+    const btn = event.target.closest('.btn-refresh') || event.target;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 更新中...';
+    btn.disabled = true;
+
+    fetch('/')
+        .then(response => response.text())
+        .then(html => {
+            // 简单重新加载页面
+            location.reload();
+        })
+        .catch(error => {
+            console.error('刷新失败:', error);
+            btn.innerHTML = '<i class="fas fa-sync-alt"></i> 刷新';
+            btn.disabled = false;
+            alert('刷新失败，请稍后重试');
+        });
+}
+
+function shareHotspot(hotspotId) {
+    // 简单的分享功能
+    const hotspot = document.querySelector(`.hotspot-card:nth-child(${hotspotId}) .card-title`).textContent;
+    const text = `跨境电商热点：${hotspot} - 来自跨境电商热点追踪系统`;
+
+    if (navigator.share) {
+        navigator.share({
+            title: '跨境电商热点',
+            text: text,
+            url: window.location.href
+        });
+    } else {
+        // 复制到剪贴板
+        navigator.clipboard.writeText(text).then(() => {
+            alert('热点链接已复制到剪贴板！');
+        });
+    }
+}
+
+// 自动刷新通知
+let lastUpdate = '{{ last_update }}';
+function checkForUpdates() {
+    fetch('/api/hotspots/today')
+        .then(response => response.json())
+        .then(data => {
+            if (data.last_update && data.last_update !== lastUpdate) {
+                showUpdateNotification();
+                lastUpdate = data.last_update;
+            }
+        })
+        .catch(console.error);
+}
+
+function showUpdateNotification() {
+    const notification = document.createElement('div');
+    notification.className = 'update-notification';
+    notification.innerHTML = `
+        <i class="fas fa-bell"></i>
+        <span>热点数据已更新！</span>
+        <button onclick="location.reload()">刷新查看</button>
+    `;
+    document.body.appendChild(notification);
+
+    setTimeout(() => notification.remove(), 5000);
+}
+
+// 每5分钟检查一次更新
+setInterval(checkForUpdates, 300000);
+
+// 页面加载完成
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('跨境电商热点追踪系统已加载');
+});
+</script>
+{% endblock %}
