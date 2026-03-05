@@ -19,7 +19,8 @@
     }
   ],
   "env": {
-    "PYTHON_VERSION": "3.9",
-    "PYTHON_PACKAGE_MANAGER": "pip"
+    "PYTHON_VERSION": "3.11",
+    "PYTHON_PACKAGE_MANAGER": "pip",
+    "UV": "0"
   }
 }
