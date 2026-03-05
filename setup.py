@@ -1,2 +1,7 @@
 from setuptools import setup
-setup()
+
+setup(
+    name="hotspot",
+    version="1.0",
+    packages=[],
+)
