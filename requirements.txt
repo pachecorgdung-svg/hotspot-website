@@ -1,5 +1,7 @@
 flask
+flask-sqlalchemy
 requests
 beautifulsoup4
 lxml
-werkzeug
+apscheduler
+python-dotenv
