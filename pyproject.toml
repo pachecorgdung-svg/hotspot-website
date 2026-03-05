@@ -1,13 +1,24 @@
+[project]
+name = "hotspot-website"
+version = "1.0.0"
+requires-python = ">=3.9"
+dependencies = [
+  "flask",
+  "flask-sqlalchemy",
+  "requests",
+  "beautifulsoup4",
+  "lxml",
+  "apscheduler",
+  "python-dotenv"
+]
+
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
-zip-safe = true
 packages = []
+include-package-data = false
 
-[tool.setuptools.package-data]
-"*" = []
-
-[tool.pytest.ini_options]
-testpaths = []
+[tool.setuptools.packages.find]
+exclude = ["*test*", "*tests*"]
