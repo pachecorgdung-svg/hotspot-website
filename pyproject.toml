@@ -22,3 +22,4 @@ include-package-data = false
 
 [tool.setuptools.packages.find]
 exclude = ['*test*', '*tests*']
+  
