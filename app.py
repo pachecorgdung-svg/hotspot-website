@@ -14,7 +14,6 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 
 # 初始化数据库
-db.init_app(app)
 DBManager.init_app(app)
 
 # 爬虫管理器已初始化（通过crawler_manager）
