@@ -13,8 +13,8 @@ from scheduler.tasks import scheduler, update_daily_hotspots
 app = Flask(__name__)
 app.config.from_object(__name__)
 
-# 初始化数据库
-DBManager.init_app(app)
+# 初始化数据库（只初始化一次）
+db.init_app(app)
 
 # 爬虫管理器已初始化（通过crawler_manager）
 
