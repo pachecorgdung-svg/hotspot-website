@@ -6,12 +6,12 @@ class DBManager:
     """数据库管理类"""
 
     @staticmethod
-    def init_app(app):
-        """初始化数据库"""
-        # Vercel 环境下避免重复初始化 SQLAlchemy
-        if 'sqlalchemy' not in app.extensions:
-            db.init_app(app)
-
+def init_app(app):
+    """初始化数据库，避免 Vercel 环境重复初始化 SQLAlchemy"""
+    # 先判断 app.extensions 是否存在，再检查 sqlalchemy
+    if not hasattr(app, 'extensions') or 'sqlalchemy' not in app.extensions:
+        db.init_app(app)
+    # 仅在首次初始化时创建表（避免重复创建）
     with app.app_context():
         db.create_all()
 
